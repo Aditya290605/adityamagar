@@ -46,14 +46,14 @@ const Meta = () => (
     <meta property="og:url" content={METADATA.siteUrl} />
     <meta property="og:site_name" content="Aditya Magar" />
 
-    {/* Twitter */}
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:title" content={METADATA.title} />
-    <meta property="twitter:description" content={METADATA.description} />
-    <meta property="twitter:site" content={METADATA.twitterHandle} />
-    <meta name="twitter:creator" content={METADATA.twitterHandle} />
-    <meta property="twitter:url" content={METADATA.siteUrl} />
-    <meta property="twitter:image" content={METADATA.image} />
+      {/* Open Graph / Facebook */}
+      <meta property="og:locale" content="en_US" />
+      <meta property="og:type" content="website" />
+      <meta property="og:title" content={pageTitle} />
+      <meta property="og:description" content={pageDescription} />
+      <meta property="og:image" content={pageImage} />
+      <meta property="og:url" content={METADATA.siteUrl} />
+      <meta property="og:site_name" content={METADATA.title} />
 
     <link rel="icon" type="image/png" href="/logo.png" />
     <link rel="apple-touch-icon" href="/logo.png" />
