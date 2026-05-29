@@ -12,6 +12,7 @@ import Skills from "@/components/Skills/Skills";
 import About2 from "@/components/About/About2";
 import Projects from "@/components/Projects/Projects";
 import Work from "@/components/Work/Work";
+import BlogPreview from "@/components/Blog/BlogPreview";
 import Collaboration from "@/components/Collaboration/Collaboration";
 import Contact from "@/components/Contact/Contact";
 import Footer from "@/components/Footer/Footer";
@@ -27,9 +28,15 @@ export default function Home() {
   const [clientWidth, setClientWidth] = useState(0);
 
   useEffect(() => {
-    setTimeout(() => {
+    const hasLoaded = sessionStorage.getItem("portfolio-loaded");
+    if (hasLoaded) {
       setIsLoading(false);
-    }, 2600);
+    } else {
+      setTimeout(() => {
+        setIsLoading(false);
+        sessionStorage.setItem("portfolio-loaded", "true");
+      }, 2600);
+    }
 
     displayFancyLogs();
   }, []);
@@ -72,6 +79,7 @@ export default function Home() {
             <About2 clientHeight={clientHeight} />
             <Projects isDesktop={isDesktop} clientHeight={clientHeight} />
             <Work isDesktop={isDesktop} />
+            <BlogPreview />
             <Collaboration clientHeight={clientHeight} />
             <Contact />
           </main>
