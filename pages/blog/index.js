@@ -7,12 +7,12 @@ import { BLOG_POSTS } from "../../constants";
 
 const staggerContainer = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.12 } },
+  visible: { transition: { staggerChildren: 0.08 } },
 };
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } },
 };
 
 const BlogPage = () => {
@@ -32,6 +32,11 @@ const BlogPage = () => {
           ]}
         />
 
+        {/* Post count */}
+        <p className="text-sm font-mono text-gray-light-4 mb-8">
+          {BLOG_POSTS.length} article{BLOG_POSTS.length !== 1 ? "s" : ""}
+        </p>
+
         <motion.div
           initial="hidden"
           animate="visible"
@@ -46,9 +51,12 @@ const BlogPage = () => {
         </motion.div>
 
         {BLOG_POSTS.length === 0 && (
-          <p className="text-gray-light-3 text-center py-20 font-mono">
-            No blog posts yet. Stay tuned!
-          </p>
+          <div className="text-center py-24">
+            <p className="text-gray-light-3 font-mono text-lg mb-2">
+              No blog posts yet
+            </p>
+            <p className="text-gray-light-4 text-sm">Stay tuned!</p>
+          </div>
         )}
       </div>
       <CTASection />

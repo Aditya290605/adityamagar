@@ -1,4 +1,4 @@
-import { useEffect, useRef, useLayoutEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import Typed from "typed.js";
 import gsap from "gsap";
 import Button from "../Button/Button";
@@ -19,14 +19,18 @@ const options = {
 const Hero = () => {
   const sectionRef = useRef(null);
   const typedElementRef = useRef(null);
+  const [mounted, setMounted] = useState(false);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
+    setMounted(true);
+    if (!sectionRef.current) return;
     const ctx = gsap.context(() => {
+      const targets = sectionRef.current.querySelectorAll(".staggered-reveal");
       gsap
         .timeline({ defaults: { ease: "none" } })
         .to(sectionRef.current, { opacity: 1, duration: 2 })
         .from(
-          sectionRef.current.querySelectorAll(".staggered-reveal"),
+          targets,
           { opacity: 0, duration: 0.5, stagger: 0.5 },
           "<"
         );
@@ -36,10 +40,13 @@ const Hero = () => {
   }, []);
 
   useEffect(() => {
+    if (!typedElementRef.current) return;
     const typed = new Typed(typedElementRef.current, options);
 
     return () => typed.destroy();
   }, [typedElementRef]);
+
+
 
   return (
     <section
@@ -83,11 +90,14 @@ const Hero = () => {
         </div>
       </div>
       <div className="absolute invisible w-6/12 h-[80%] top-1/2 -translate-y-1/2 lg:visible lg:right-12 2xl:right-16">
-        <SplineScene
-          scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
-          className="w-full h-full"
-        />
+        {mounted && (
+          <SplineScene
+            scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+            className="w-full h-full"
+          />
+        )}
       </div>
+
     </section>
   );
 };

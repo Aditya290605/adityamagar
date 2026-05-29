@@ -48,17 +48,22 @@ const Work = ({ isDesktop }) => {
   );
 
   useEffect(() => {
+    if (!sectionRef.current) return;
+    const workWrapper = sectionRef.current.querySelector(".work-wrapper");
+    if (!workWrapper) return;
+
     const ctx = gsap.context(() => {
+      const targets = sectionRef.current.querySelectorAll(".staggered-reveal");
       const tl = gsap
         .timeline({ defaults: { ease: "none" } })
         .from(
-          sectionRef.current.querySelectorAll(".staggered-reveal"),
+          targets,
           { opacity: 0, duration: 0.5, stagger: 0.5 },
           "<"
         );
 
       ScrollTrigger.create({
-        trigger: sectionRef.current.querySelector(".work-wrapper"),
+        trigger: workWrapper,
         start: "100px bottom",
         end: "center center",
         scrub: 0,
@@ -68,6 +73,7 @@ const Work = ({ isDesktop }) => {
 
     return () => ctx.revert();
   }, []);
+
 
   return (
     <section

@@ -18,33 +18,26 @@ const jsonLd = {
   ],
 };
 
-const Meta = () => (
-  <Head>
-    <title>{METADATA.title}</title>
-    <meta name="description" content={METADATA.description} />
-    <meta name="keywords" content={METADATA.keywords} />
-    <meta name="robots" content="index,follow" />
-    <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="language" content={METADATA.language} />
-    <meta name="author" content={METADATA.author} />
-    <meta name="theme-color" content={METADATA.themeColor} />
-    <meta httpEquiv="content-language" content="en" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+const Meta = ({ title, description, image }) => {
+  const pageTitle = title ? `${title} | Aditya Magar` : METADATA.title;
+  const pageDescription = description || METADATA.description;
+  const pageImage = image || METADATA.image;
 
-    {/* Canonical */}
-    <link rel="canonical" href={METADATA.siteUrl} />
+  return (
+    <Head>
+      <title>{pageTitle}</title>
+      <meta name="description" content={pageDescription} />
+      <meta name="keywords" content={METADATA.keywords} />
+      <meta name="robots" content="index,follow" />
+      <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
+      <meta name="language" content={METADATA.language} />
+      <meta name="author" content={METADATA.author} />
+      <meta name="theme-color" content={METADATA.themeColor} />
+      <meta httpEquiv="content-language" content="en" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    {/* Open Graph / Facebook */}
-    <meta property="og:locale" content="en_US" />
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content={METADATA.title} />
-    <meta property="og:description" content={METADATA.description} />
-    <meta property="og:image" content={METADATA.image} />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content={`${METADATA.author} – Portfolio Preview`} />
-    <meta property="og:url" content={METADATA.siteUrl} />
-    <meta property="og:site_name" content="Aditya Magar" />
+      {/* Canonical */}
+      <link rel="canonical" href={METADATA.siteUrl} />
 
       {/* Open Graph / Facebook */}
       <meta property="og:locale" content="en_US" />
@@ -52,20 +45,25 @@ const Meta = () => (
       <meta property="og:title" content={pageTitle} />
       <meta property="og:description" content={pageDescription} />
       <meta property="og:image" content={pageImage} />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:alt" content={`${METADATA.author} – Portfolio Preview`} />
       <meta property="og:url" content={METADATA.siteUrl} />
-      <meta property="og:site_name" content={METADATA.title} />
+      <meta property="og:site_name" content="Aditya Magar" />
 
-    <link rel="icon" type="image/png" href="/logo.png" />
-    <link rel="apple-touch-icon" href="/logo.png" />
-    <meta name="msapplication-TileColor" content="#7000FF" />
-    <link rel="manifest" href="/manifest.json" />
+      <link rel="icon" type="image/png" href="/logo.png" />
+      <link rel="apple-touch-icon" href="/logo.png" />
+      <meta name="msapplication-TileColor" content="#7000FF" />
+      <link rel="manifest" href="/manifest.json" />
 
-    {/* JSON-LD Structured Data */}
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-    />
-  </Head>
-);
+      {/* JSON-LD Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+    </Head>
+  );
+};
 
 export default Meta;
+

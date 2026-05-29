@@ -7,6 +7,12 @@ const Collaboration = ({ clientHeight }) => {
   const quoteRef = useRef(null);
 
   useEffect(() => {
+    if (!quoteRef.current || !sectionRef.current) return;
+    const textStrong = quoteRef.current.querySelector(".text-strong");
+    const uiLeft = sectionRef.current.querySelector(".ui-left");
+    const uiRight = sectionRef.current.querySelector(".ui-right");
+    if (!textStrong || !uiLeft || !uiRight) return;
+
     const smallScreen = document.body.clientWidth < 767;
 
     const timeline = gsap.timeline({
@@ -15,7 +21,7 @@ const Collaboration = ({ clientHeight }) => {
 
     timeline
       .from(quoteRef.current, { opacity: 0, duration: 2 })
-      .to(quoteRef.current.querySelector(".text-strong"), {
+      .to(textStrong, {
         backgroundPositionX: "100%",
         duration: 1,
       });
@@ -23,11 +29,11 @@ const Collaboration = ({ clientHeight }) => {
     const slidingTl = gsap.timeline({ defaults: { ease: "none" } });
 
     slidingTl
-      .to(sectionRef.current.querySelector(".ui-left"), {
+      .to(uiLeft, {
         xPercent: smallScreen ? -500 : -150,
       })
       .from(
-        sectionRef.current.querySelector(".ui-right"),
+        uiRight,
         { xPercent: smallScreen ? -500 : -150 },
         "<"
       );
@@ -53,6 +59,7 @@ const Collaboration = ({ clientHeight }) => {
       slidingTl.kill();
     };
   }, [quoteRef, sectionRef]);
+
 
   return (
     <section ref={sectionRef} className="w-full relative select-none my-40">

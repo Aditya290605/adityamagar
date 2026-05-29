@@ -1,16 +1,19 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 
-const Cursor = ({ isDesktop }) => {
+const Cursor = ({ isDesktop, pathname }) => {
   const cursor = useRef(null);
   const follower = useRef(null);
 
   useEffect(() => {
-    if (isDesktop && document.body.clientWidth > 767) {
-      follower.current.classList.remove("hidden");
-      cursor.current.classList.remove("hidden");
+    if (!isDesktop || !follower.current || !cursor.current) return;
+    if (document.body.clientWidth <= 767) return;
 
-      const moveCircle = (e) => {
+    follower.current.classList.remove("hidden");
+    cursor.current.classList.remove("hidden");
+
+    const moveCircle = (e) => {
+      if (cursor.current && follower.current) {
         gsap.to(cursor.current, {
           x: e.clientX,
           y: e.clientY,
@@ -23,9 +26,11 @@ const Cursor = ({ isDesktop }) => {
           duration: 0.3,
           ease: "none",
         });
-      };
+      }
+    };
 
-      const hover = () => {
+    const hover = () => {
+      if (cursor.current && follower.current) {
         gsap.to(cursor.current, {
           scale: 0.5,
           duration: 0.3,
@@ -34,9 +39,11 @@ const Cursor = ({ isDesktop }) => {
           scale: 3,
           duration: 0.3,
         });
-      };
+      }
+    };
 
-      const unHover = () => {
+    const unHover = () => {
+      if (cursor.current && follower.current) {
         gsap.to(cursor.current, {
           scale: 1,
           duration: 0.3,
@@ -45,25 +52,25 @@ const Cursor = ({ isDesktop }) => {
           scale: 1,
           duration: 0.3,
         });
-      };
+      }
+    };
 
-      document.addEventListener("mousemove", moveCircle);
+    document.addEventListener("mousemove", moveCircle);
+
+    document.querySelectorAll(".link").forEach((el) => {
+      el.addEventListener("mouseenter", hover);
+      el.addEventListener("mouseleave", unHover);
+    });
+
+    return () => {
+      document.removeEventListener("mousemove", moveCircle);
 
       document.querySelectorAll(".link").forEach((el) => {
-        el.addEventListener("mouseenter", hover);
-        el.addEventListener("mouseleave", unHover);
+        el.removeEventListener("mouseenter", hover);
+        el.removeEventListener("mouseleave", unHover);
       });
-
-      return () => {
-        document.removeEventListener("mousemove", moveCircle);
-
-        document.querySelectorAll(".link").forEach((el) => {
-          el.removeEventListener("mouseenter", hover);
-          el.removeEventListener("mouseleave", unHover);
-        });
-      };
-    }
-  }, [cursor, follower, isDesktop]);
+    };
+  }, [cursor, follower, isDesktop, pathname]);
 
   return (
     <>

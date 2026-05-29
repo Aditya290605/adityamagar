@@ -3,15 +3,25 @@ import Image from "next/image";
 import { Howl } from "howler";
 import SoundBar from "./SoundBar/SoundBar";
 
-const multiPop = new Howl({
-  src: ["/sounds/multi-pop.mp3"],
-});
-
 const Header = ({ children }) => {
   const inputRef = useRef(null);
+  const multiPopRef = useRef(null);
+
+  useEffect(() => {
+    multiPopRef.current = new Howl({
+      src: ["/sounds/multi-pop.mp3"],
+    });
+    return () => {
+      if (multiPopRef.current) {
+        multiPopRef.current.unload();
+      }
+    };
+  }, []);
 
   const handleClick = useCallback((e) => {
-    if (e.target.checked) multiPop.play();
+    if (e.target.checked && multiPopRef.current) {
+      multiPopRef.current.play();
+    }
   }, []);
 
   const handleKeyDown = useCallback((e) => {
@@ -27,6 +37,7 @@ const Header = ({ children }) => {
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, [handleKeyDown]);
+
 
   return (
     <nav className="w-full fixed top-0 py-8 z-50 select-none bg-gradient-to-b from-black shadow-black transition-all duration-300">
