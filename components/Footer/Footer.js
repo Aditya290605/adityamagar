@@ -1,5 +1,4 @@
-/* eslint-disable @next/next/no-img-element */
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Fade } from "react-reveal";
 import { Howl } from "howler";
 import Button from "../Button/Button";
@@ -10,17 +9,30 @@ import { MENULINKS } from "../../constants";
 
 const Footer = () => {
   const [playbackRate, setPlaybackRate] = useState(0.75);
+  const heartSoundRef = useRef(null);
 
-  const heartClickSound = new Howl({
-    src: ["/sounds/glug-a.mp3"],
-    rate: playbackRate,
-    volume: 0.5,
-  });
+  useEffect(() => {
+    heartSoundRef.current = new Howl({
+      src: ["/sounds/glug-a.mp3"],
+      rate: 0.75,
+      volume: 0.5,
+    });
+    return () => {
+      if (heartSoundRef.current) {
+        heartSoundRef.current.unload();
+      }
+    };
+  }, []);
 
   const handleClick = () => {
-    setPlaybackRate((rate) => rate + 0.1);
-    heartClickSound.play();
+    const nextRate = playbackRate + 0.1;
+    setPlaybackRate(nextRate);
+    if (heartSoundRef.current) {
+      heartSoundRef.current.rate(nextRate);
+      heartSoundRef.current.play();
+    }
   };
+
 
   return (
     <footer

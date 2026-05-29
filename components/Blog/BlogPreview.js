@@ -9,17 +9,22 @@ const BlogPreview = () => {
   const sectionRef = useRef(null);
 
   useEffect(() => {
+    if (!sectionRef.current) return;
+    const blogWrapper = sectionRef.current.querySelector(".blog-wrapper");
+    if (!blogWrapper) return;
+
     const ctx = gsap.context(() => {
+      const targets = sectionRef.current.querySelectorAll(".staggered-reveal");
       const tl = gsap
         .timeline({ defaults: { ease: "none" } })
         .from(
-          sectionRef.current.querySelectorAll(".staggered-reveal"),
+          targets,
           { opacity: 0, duration: 0.5, stagger: 0.5 },
           "<"
         );
 
       ScrollTrigger.create({
-        trigger: sectionRef.current.querySelector(".blog-wrapper"),
+        trigger: blogWrapper,
         start: "100px bottom",
         end: "center center",
         scrub: 0,
@@ -29,6 +34,7 @@ const BlogPreview = () => {
 
     return () => ctx.revert();
   }, []);
+
 
   return (
     <section

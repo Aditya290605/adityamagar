@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { cn } from "utils/cn";
+import { Howl } from "howler";
 
 const Tab = ({ index, tab, activeTab, handleOnClick, setIsHovering }) => {
   return (
@@ -68,14 +69,22 @@ const TabsContent = ({ tabs, isHovering }) => {
   );
 };
 
-const mouseClickSound = new Howl({
-  src: ["/sounds/mouse-click.mp3"],
-});
-
 const Tabs = ({ tabItems }) => {
   const [isHovering, setIsHovering] = useState(false);
   const [tabs, setTabs] = useState(tabItems);
   const [activeTab, setActiveTab] = useState(tabItems[0]);
+  const clickSoundRef = useRef(null);
+
+  useEffect(() => {
+    clickSoundRef.current = new Howl({
+      src: ["/sounds/mouse-click.mp3"],
+    });
+    return () => {
+      if (clickSoundRef.current) {
+        clickSoundRef.current.unload();
+      }
+    };
+  }, []);
 
   const handleOnClick = (index) => {
     const updatedTabs = [...tabItems];
@@ -83,8 +92,11 @@ const Tabs = ({ tabItems }) => {
     updatedTabs.unshift(selectedTab[0]);
     setTabs(updatedTabs);
     setActiveTab(updatedTabs[0]);
-    mouseClickSound.play();
+    if (clickSoundRef.current) {
+      clickSoundRef.current.play();
+    }
   };
+
 
   return (
     <div className="staggered-reveal">

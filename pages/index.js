@@ -2,10 +2,7 @@ import { useState, useEffect } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import Loader from "@/components/Loader/Loader";
-import Header from "@/components/Header/Header";
-import Menu from "@/components/Header/Menu/Menu";
 import ProgressIndicator from "@/components/ProgressIndicator/ProgressIndicator";
-import Cursor from "@/components/Cursor/Cursor";
 import Hero from "@/components/Hero/Hero";
 import About1 from "@/components/About/About1";
 import Skills from "@/components/Skills/Skills";
@@ -22,22 +19,12 @@ gsap.registerPlugin(ScrollTrigger);
 gsap.config({ nullTargetWarn: false });
 
 export default function Home() {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [isDesktop, setIsDesktop] = useState(true);
   const [clientHeight, setClientHeight] = useState(0);
   const [clientWidth, setClientWidth] = useState(0);
 
   useEffect(() => {
-    const hasLoaded = sessionStorage.getItem("portfolio-loaded");
-    if (hasLoaded) {
-      setIsLoading(false);
-    } else {
-      setTimeout(() => {
-        setIsLoading(false);
-        sessionStorage.setItem("portfolio-loaded", "true");
-      }, 2600);
-    }
-
     displayFancyLogs();
   }, []);
 
@@ -60,11 +47,7 @@ export default function Home() {
         <Loader />
       ) : (
         <>
-          <Header>
-            <Menu />
-          </Header>
           <ProgressIndicator />
-          <Cursor isDesktop={isDesktop} />
           <main className="flex flex-col">
             <div
               role="img"

@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import gsap, { Power1, Circ } from "gsap";
 import Button from "@/components/Button/Button";
-import Cursor from "@/components/Cursor/Cursor";
 
 const Custom404 = () => {
   const router = useRouter();
@@ -13,7 +12,7 @@ const Custom404 = () => {
   const rightEyeRef = useRef(null);
 
   useEffect(() => {
-    const { orientation } = window;
+    const { orientation, history } = window;
 
     const result =
       typeof orientation === "undefined" &&
@@ -61,7 +60,6 @@ const Custom404 = () => {
 
   return (
     <>
-      <Cursor isDesktop={isDesktop} />
       <div className="flex justify-center items-center flex-wrap h-screen">
         <svg className="max-h-screen" viewBox="0 0 600 600">
           <g id="milk-spill" fill="#fff">

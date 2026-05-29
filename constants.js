@@ -738,6 +738,345 @@ For new Flutter projects in 2025, start with **Riverpod**. Use **Bloc** if your 
 
 The best state management solution is the one your team understands and can maintain. Don't chase trends — chase productivity.`,
   },
+  {
+    slug: "firebase-vs-supabase-for-flutter",
+    title: "Firebase vs Supabase for Flutter Apps: An Honest Comparison",
+    date: "February 5, 2025",
+    tags: ["Flutter", "Firebase", "Supabase"],
+    excerpt:
+      "After building production apps with both Firebase and Supabase, here's my detailed comparison covering auth, databases, real-time features, pricing, and developer experience.",
+    content: `## The Backend Dilemma
+
+Choosing the right backend-as-a-service (BaaS) can make or break your Flutter project. I've shipped apps using both Firebase and Supabase, and each has distinct strengths.
+
+## Firebase: The Mature Ecosystem
+
+Firebase has been around longer, and it shows. The Flutter integration (FlutterFire) is polished, and the ecosystem is massive:
+
+- **Authentication** — supports 10+ providers out of the box, easy setup
+- **Firestore** — NoSQL document database with excellent real-time sync
+- **Cloud Functions** — serverless backend logic in JavaScript/TypeScript
+- **Crashlytics & Analytics** — production monitoring built in
+
+The downside? Vendor lock-in with Google, NoSQL data modeling can get complex, and costs can spike unpredictably with Firestore reads.
+
+## Supabase: The Open-Source Challenger
+
+Supabase is Postgres-based, open-source, and rapidly improving:
+
+- **PostgreSQL** — full relational database with SQL power
+- **Row Level Security** — fine-grained permissions at the database level
+- **Real-time** — built on Postgres logical replication
+- **Self-hostable** — you own your data, no vendor lock-in
+
+The trade-off? The Flutter SDK is newer, and some features still feel beta compared to Firebase.
+
+## My Recommendation
+
+Use **Firebase** for rapid prototyping, real-time apps, and when you need the full Google ecosystem. Use **Supabase** when you need relational data, SQL queries, or want to avoid vendor lock-in.
+
+For my Fitness Geni app, Supabase was the perfect choice because workout data is inherently relational. For GradeVise, Firebase's real-time capabilities made more sense.`,
+  },
+  {
+    slug: "10-dart-tips-for-cleaner-flutter-code",
+    title: "10 Dart Tips for Writing Cleaner Flutter Code",
+    date: "December 10, 2024",
+    tags: ["Dart", "Flutter", "Tips"],
+    excerpt:
+      "Small Dart language features that dramatically improve code readability — from cascade notation to pattern matching in Dart 3.",
+    content: `## Why Clean Code Matters
+
+Clean code isn't about showing off — it's about your future self (and teammates) being able to understand what you wrote 6 months later. Here are 10 Dart patterns I use daily.
+
+## 1. Cascade Notation (..)
+
+Instead of repeating the object reference, chain operations:
+
+final controller = TextEditingController()
+  ..text = 'Hello'
+  ..selection = TextSelection.collapsed(offset: 5);
+
+## 2. Collection If and For
+
+Build lists conditionally without separate logic:
+
+final items = [
+  'Home',
+  if (isLoggedIn) 'Profile',
+  for (var page in extraPages) page,
+];
+
+## 3. Named Constructors
+
+Make your intent clear with descriptive constructors instead of boolean flags.
+
+## 4. Extension Methods
+
+Add functionality to existing classes without inheritance. Perfect for String formatting, DateTime utilities, etc.
+
+## 5. Sealed Classes (Dart 3)
+
+Pattern matching with sealed classes eliminates runtime errors in state management. The compiler enforces exhaustive handling.
+
+## 6. Records for Multiple Returns
+
+Return multiple values without creating a class: (String name, int age) getUserInfo() => ('Aditya', 22);
+
+## 7. Null-Aware Operators
+
+Master ?., ??, ??=, and ?[] to handle nullability elegantly.
+
+## 8. const Constructors
+
+Use const wherever possible — it improves performance by enabling compile-time constants and widget reuse.
+
+## 9. typedef for Function Types
+
+Name your function signatures for readability: typedef OnUserTap = void Function(User user);
+
+## 10. Enhanced Enums
+
+Add methods, fields, and computed properties to enums for type-safe, self-documenting code.
+
+## Conclusion
+
+These aren't groundbreaking tricks — they're small habits that compound into dramatically cleaner codebases. Start with one or two and build from there.`,
+  },
+  {
+    slug: "responsive-flutter-ui-design-patterns",
+    title: "Responsive Flutter UI: Design Patterns That Scale",
+    date: "November 15, 2024",
+    tags: ["Flutter", "UI/UX", "Responsive"],
+    excerpt:
+      "How to build Flutter UIs that look great on phones, tablets, and web — using LayoutBuilder, MediaQuery, and adaptive design patterns.",
+    content: `## The Responsive Challenge
+
+Flutter's promise is "one codebase, every platform." But that doesn't mean one layout. A phone layout shoved onto a tablet looks terrible. Here's how I handle responsive design.
+
+## MediaQuery vs LayoutBuilder
+
+MediaQuery gives you the full screen dimensions — useful for top-level layout decisions. LayoutBuilder gives you the available space for a specific widget — better for component-level responsiveness.
+
+I use MediaQuery for deciding "phone vs tablet vs desktop" and LayoutBuilder for "how much space does this card have?"
+
+## The Breakpoint System
+
+I define breakpoints as constants and use them consistently:
+
+- Mobile: < 600px
+- Tablet: 600px - 1024px
+- Desktop: > 1024px
+
+## Adaptive Widgets Pattern
+
+Create wrapper widgets that render different layouts based on screen size. For example, a ProductGrid might show 2 columns on mobile, 3 on tablet, and 4 on desktop.
+
+## Flexible Spacing
+
+Never hardcode margins and padding. Use percentages or responsive scale factors that adapt to screen size. MediaQuery.of(context).size.width * 0.05 gives you 5% screen width padding.
+
+## Text Scaling
+
+Account for system text scaling settings. Test your UI with both 0.8x and 1.5x text scale to ensure nothing breaks.
+
+## Platform-Specific Patterns
+
+Use the platform to decide between Material and Cupertino widgets. Users expect platform-native interactions — a DatePicker should look like iOS on iOS and Material on Android.
+
+## Key Takeaway
+
+Responsive design isn't an afterthought — it's a core architectural decision. Build it into your widget tree from day one, not as a retrofit.`,
+  },
+  {
+    slug: "deploying-flutter-apps-to-production",
+    title: "The Complete Guide to Deploying Flutter Apps in 2025",
+    date: "October 20, 2024",
+    tags: ["Flutter", "DevOps", "Deployment"],
+    excerpt:
+      "Everything I've learned about shipping Flutter apps to the Play Store, App Store, and web — from signing keys to CI/CD pipelines.",
+    content: `## From Code to Users
+
+Building a great app is only half the battle. Getting it into users' hands reliably and repeatedly is where deployment skills matter.
+
+## Android Deployment
+
+### Signing & Keystores
+Generate your upload keystore once and guard it with your life. Lose it, and you can never update your app.
+
+### Play Store Console
+The review process typically takes 1-3 days for new apps. Common rejection reasons: missing privacy policy, unclear permissions usage, and content policy violations.
+
+### App Bundle vs APK
+Always use App Bundles (.aab) — they're smaller, optimized per device, and required by Google since 2021.
+
+## iOS Deployment
+
+### Certificates & Provisioning
+Apple's signing process is more complex. You need a Developer Certificate, App ID, and Provisioning Profile. Xcode handles most of this, but understanding the concepts prevents debugging nightmares.
+
+### App Store Connect
+Apple's review is stricter and takes 1-7 days. They check for crashes, broken links, placeholder content, and guideline compliance.
+
+### TestFlight
+Use TestFlight for beta testing before submission. It's invaluable for catching device-specific issues.
+
+## Flutter Web Deployment
+
+For web apps, I recommend Vercel or Firebase Hosting:
+- Build with flutter build web --release
+- Deploy the build/web directory
+- Configure proper caching headers for .js and .wasm files
+
+## CI/CD with GitHub Actions
+
+Automate your builds and deployments. A basic pipeline: lint → test → build → deploy. Tools like Codemagic and Fastlane simplify the process significantly.
+
+## Lessons Learned
+
+- Always test on real devices before submission
+- Keep release notes professional and descriptive
+- Monitor crash reports immediately after each release
+- Have a rollback plan for critical bugs`,
+  },
+  {
+    slug: "ai-integration-in-flutter-apps",
+    title: "Integrating AI into Flutter Apps: A Practical Guide",
+    date: "September 8, 2024",
+    tags: ["Flutter", "AI", "Machine Learning"],
+    excerpt:
+      "How I've integrated AI features into Flutter apps — from speech recognition and image generation to predictive models and natural language processing.",
+    content: `## AI in Mobile Apps is No Longer Optional
+
+Users expect smart, predictive, personalized experiences. Here's how I've added AI capabilities to Flutter apps without a PhD in machine learning.
+
+## On-Device vs Cloud AI
+
+### On-Device (TensorFlow Lite)
+- Fast inference, no network latency
+- Works offline
+- Limited model size and complexity
+- Good for: image classification, pose detection, text recognition
+
+### Cloud APIs (OpenAI, Google AI)
+- Powerful models, unlimited complexity
+- Requires network connection
+- Per-request pricing
+- Good for: text generation, complex reasoning, image generation
+
+## Speech-to-Text
+
+For my AI Voice Assistant app, I used the speech_to_text package for real-time transcription. Key learnings:
+- Request microphone permissions early and gracefully
+- Handle partial vs final transcriptions differently
+- Provide visual feedback during listening
+- Support multiple languages from day one
+
+## Image Generation
+
+Integrating AI image generation requires a backend proxy. Never expose API keys in your Flutter app. I use a FastAPI backend that:
+1. Receives the prompt from the Flutter app
+2. Calls the AI API server-side
+3. Returns the generated image URL
+
+## Predictive Models
+
+For Pneumonia Prediction, I trained a CNN model in Python, converted it to TFLite, and loaded it directly in the Flutter app. The key challenge was preprocessing — the image must be resized and normalized exactly like the training data.
+
+## Key Principles
+
+- Start with cloud APIs for prototyping, optimize with on-device models later
+- Always have fallback behavior when AI features are unavailable
+- Be transparent with users about AI-generated content
+- Test with diverse inputs — AI models can have surprising blind spots`,
+  },
+  {
+    slug: "optimizing-flutter-performance-guide",
+    title: "Optimizing Flutter App Performance: From 60fps to 120fps",
+    date: "April 18, 2025",
+    tags: ["Flutter", "Performance", "Mobile Dev"],
+    excerpt:
+      "A complete profiling and optimization checklist for Flutter apps — fixing jank, optimizing build contexts, reducing memory overhead, and achieving buttery-smooth 120fps animations.",
+    content: `## The Quest for 120fps
+    
+Modern mobile devices boast 120Hz displays, making performance expectations higher than ever. If your Flutter app is stuttering or dropping frames, users will feel it immediately. Here is a battle-tested guide to optimizing your Flutter apps.
+
+## 1. Eliminate Unnecessary Rebuilds
+
+The most common source of performance bottlenecks in Flutter is rebuilding widgets that haven't changed.
+- **Use const constructors:** This tells Flutter that the widget can be cached and reused.
+- **Split large widgets:** Break down monolithic widgets into smaller stateless widgets so that state changes only rebuild the specific nodes that need updates.
+- **Optimize list views:** Always use \`ListView.builder\` instead of \`ListView\` for long lists, as it lazily loads widgets that are visible on the screen.
+
+## 2. Leverage RepaintBoundaries
+
+When a widget paints, it can trigger repainting of its sibling widgets. A \`RepaintBoundary\` creates a separate display list for its child, isolating repaints:
+- Use it around heavy animations or complex drawings.
+- Use it for widgets that update frequently while their surroundings remain static (e.g., custom loaders, progress bars).
+
+## 3. Avoid Expensive Build Operations
+
+Never perform heavy synchronous computations, file I/O, or JSON parsing directly inside a \`build\` method. The build method should be pure and fast (under 16ms for 60fps, under 8ms for 120fps). Offload heavy work to background isolates using \`compute()\` or workpools.
+
+## 4. Optimize Image Assets
+
+Unoptimized images are a massive memory drain:
+- Always resize images to the actual display dimensions.
+- Use \`cacheWidth\` and \`cacheHeight\` on \`Image.asset\` or \`Image.network\` to decode images at their display size, saving megabytes of RAM.
+- Compress images using modern formats like WebP.
+
+## 5. Profile with Flutter DevTools
+
+Don't guess at performance issues — measure them:
+- Use the **Performance** tab to analyze frame times and identify CPU/GPU bottlenecks.
+- Use the **CPU Profiler** to find slow functions.
+- Use the **Memory** tab to detect leaks and inspect the heap.
+
+Following these practices helped me reduce CPU overhead by 40% and reach stable 120fps in the ArvyaX app!`,
+  },
+  {
+    slug: "mastering-git-collaborative-workflow",
+    title: "Mastering Git Workflows for Seamless Collaboration",
+    date: "May 25, 2025",
+    tags: ["Git", "DevOps", "Workflow"],
+    excerpt:
+      "Advanced Git techniques and strategies to streamline pull requests, manage branch releases, squash commits, and maintain a pristine git history in team environments.",
+    content: `## Git Beyond the Basics
+
+Most developers know \`git add\`, \`git commit\`, and \`git push\`. But in a fast-paced team, basic Git isn't enough. A messy git history with hundreds of "fix typo" commits makes code review and debugging a nightmare. Here is how to master Git for professional collaboration.
+
+## 1. Choose the Right Branching Strategy
+
+- **Git Flow:** Best for traditional release cycles with distinct releases.
+- **GitHub Flow:** Simple, feature-branch-based workflow that is perfect for continuous deployment.
+- **Trunk-Based Development:** Developers merge small, frequent updates to a single branch ("trunk"), minimizing merge conflicts.
+
+## 2. Use Interactive Rebase for Clean History
+
+Before opening a pull request, clean up your commits using \`git rebase -i\`. This lets you:
+- **Squash:** Combine multiple minor commits into a single logical commit.
+- **Reword:** Edit commit messages for clarity.
+- **Fixup:** Merge a commit into its predecessor without changing the message.
+
+Command: \`git rebase -i main\`
+
+## 3. The Power of Cherry-Picking
+
+If you need to apply a specific bugfix commit from a development branch to production without merging the entire branch, use \`git cherry-pick <commit-hash>\`. It cleanly copies that change onto your current branch.
+
+## 4. Resolving Merge Conflicts Safely
+
+When conflicts occur:
+1. Don't panic.
+2. Rebase your feature branch against the updated target branch (\`git pull --rebase origin main\`).
+3. Use a visual merge tool (like VS Code or GitKraken) to resolve conflicts file by file.
+4. Run your test suite before completing the rebase (\`git rebase --continue\`).
+
+## 5. Enforce Quality with Git Hooks
+
+Use pre-commit and pre-push hooks to automatically run linter checks, format code, and execute unit tests before any code leaves your local machine. This guarantees that broken code never reaches the shared repository.
+
+Clean commits reflect a structured mind. By mastering these workflows, you make your code reviews faster and your deployments safer!`,
+  },
 ];
 
 export const AWARDS = [

@@ -26,7 +26,7 @@ const WorkPage = () => {
         opacity: 0,
         y: 40,
         duration: 0.5,
-        stagger: 0.1,
+        stagger: 0.08,
         ease: "power2.out",
       });
     });
@@ -51,21 +51,26 @@ const WorkPage = () => {
         />
 
         {/* Filter chips */}
-        <div className="flex flex-wrap gap-2 mb-10">
+        <div className="flex flex-wrap gap-2 mb-12">
           {allTech.map((tech) => (
             <button
               key={tech}
               onClick={() => setFilter(tech)}
-              className={`link rounded-full px-4 py-1.5 text-xs font-mono font-medium transition-all duration-200 ${
+              className={`link rounded-full px-5 py-2 text-[0.75rem] font-mono font-medium transition-all duration-300 border ${
                 filter === tech
-                  ? "bg-purple text-white shadow-[0_0_0.75rem_rgba(139,49,255,0.3)]"
-                  : "bg-gray-dark-2 text-gray-light-3 hover:text-white hover:bg-gray-dark-1"
+                  ? "bg-gradient-to-r from-indigo-light to-indigo-dark text-white border-transparent shadow-[0_0_20px_rgba(139,49,255,0.25)]"
+                  : "bg-white/[0.02] text-gray-light-3 border-white/[0.06] hover:text-white hover:border-white/[0.12] hover:bg-white/[0.04]"
               }`}
             >
-              {tech === "All" ? "All" : tech.charAt(0).toUpperCase() + tech.slice(1)}
+              {tech === "All" ? "All Projects" : tech.charAt(0).toUpperCase() + tech.slice(1)}
             </button>
           ))}
         </div>
+
+        {/* Results count */}
+        <p className="text-sm font-mono text-gray-light-4 mb-6">
+          {filtered.length} project{filtered.length !== 1 ? "s" : ""}
+        </p>
 
         {/* Project grid */}
         <div
@@ -80,9 +85,14 @@ const WorkPage = () => {
         </div>
 
         {filtered.length === 0 && (
-          <p className="text-gray-light-3 text-center py-20 font-mono">
-            No projects found for &ldquo;{filter}&rdquo;
-          </p>
+          <div className="text-center py-24">
+            <p className="text-gray-light-3 font-mono text-lg mb-2">
+              No projects found
+            </p>
+            <p className="text-gray-light-4 text-sm">
+              Try selecting a different filter
+            </p>
+          </div>
         )}
       </div>
       <CTASection />

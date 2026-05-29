@@ -13,7 +13,7 @@ export function SplineScene({ scene, className }: SplineSceneProps) {
         <Suspense
             fallback={
                 <div className="w-full h-full flex items-center justify-center">
-                    <span className="loader"></span>
+                    <div className="w-8 h-8 border-2 border-indigo-light border-t-transparent rounded-full animate-spin"></div>
                 </div>
             }
         >
@@ -24,3 +24,5 @@ export function SplineScene({ scene, className }: SplineSceneProps) {
         </Suspense>
     )
 }
+
+

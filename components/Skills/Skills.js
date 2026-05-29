@@ -1,5 +1,4 @@
-/* eslint-disable @next/next/no-img-element */
-import { useLayoutEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
@@ -8,18 +7,23 @@ import { MENULINKS, SKILLS } from "../../constants";
 const Skills = () => {
   const sectionRef = useRef(null);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
+    if (!sectionRef.current) return;
+    const skillsWrapper = sectionRef.current.querySelector(".skills-wrapper");
+    if (!skillsWrapper) return;
+
     const ctx = gsap.context(() => {
+      const targets = sectionRef.current.querySelectorAll(".staggered-reveal");
       const tl = gsap
         .timeline({ defaults: { ease: "none" } })
         .from(
-          sectionRef.current.querySelectorAll(".staggered-reveal"),
+          targets,
           { opacity: 0, duration: 0.5, stagger: 0.5 },
           "<"
         );
 
       ScrollTrigger.create({
-        trigger: sectionRef.current.querySelector(".skills-wrapper"),
+        trigger: skillsWrapper,
         start: "100px bottom",
         end: "center center",
         scrub: 0,
@@ -29,6 +33,7 @@ const Skills = () => {
 
     return () => ctx.revert();
   }, []);
+
 
   return (
     <section

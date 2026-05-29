@@ -14,8 +14,8 @@ const ResumePage = () => {
       />
       <div className="section-container min-h-[70vh] flex flex-col">
         <PageHeader
-          title="Resume / CV"
-          subtitle="My professional resume with a summary of my skills, experience, and education."
+          title="Resume"
+          subtitle="My professional resume with a summary of skills, experience, and education."
           breadcrumbs={[
             { label: "Home", href: "/" },
             { label: "Resume" },
@@ -28,9 +28,11 @@ const ResumePage = () => {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="flex-1 flex flex-col items-center justify-center text-center py-16"
         >
-          <div className="w-20 h-20 rounded-2xl bg-gray-dark-2 border border-gray-dark-1 flex items-center justify-center mb-8">
+          {/* Icon */}
+          <div className="relative w-20 h-20 rounded-2xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center mb-8">
+            <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-purple/10 to-transparent" />
             <svg
-              className="w-10 h-10 text-indigo-light"
+              className="w-10 h-10 text-indigo-light relative"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -53,19 +55,23 @@ const ResumePage = () => {
               href={RESUME_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="link inline-flex items-center gap-2 font-mono text-sm font-bold px-8 py-3 rounded-md bg-purple text-white hover:shadow-[0_0_1rem_rgba(139,49,255,0.4)] transition-all duration-300"
+              className="link group inline-flex items-center gap-2 font-mono text-sm font-bold px-8 py-3.5 rounded-xl bg-gradient-to-r from-indigo-light to-indigo-dark text-white hover:shadow-[0_0_30px_rgba(139,49,255,0.3)] hover:scale-[1.02] transition-all duration-300"
             >
-              Open Resume ↗
+              Open Resume
+              <svg className="w-4 h-4 transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
             </a>
             <Link
               href="/contact"
-              className="link inline-flex items-center gap-2 font-mono text-sm font-bold px-8 py-3 rounded-md outline outline-2 outline-white/30 text-white hover:bg-white hover:text-black transition-all duration-300"
+              className="link inline-flex items-center gap-2 font-mono text-sm font-bold px-8 py-3.5 rounded-xl border border-white/[0.12] text-white hover:bg-white/[0.05] hover:border-white/20 transition-all duration-300"
             >
               Contact Instead
             </Link>
           </div>
 
-          <p className="text-gray-light-4 text-xs font-mono mt-10">
+          <p className="text-gray-light-4 text-xs font-mono mt-12 flex items-center gap-2">
+            <span className="w-1 h-1 rounded-full bg-green" />
             Last updated: May 2025
           </p>
         </motion.div>

@@ -9,12 +9,12 @@ import { PROJECTS } from "../../constants";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
 };
 
 const staggerContainer = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.15 } },
+  visible: { transition: { staggerChildren: 0.12 } },
 };
 
 const ProjectDetail = ({ project }) => {
@@ -41,7 +41,7 @@ const ProjectDetail = ({ project }) => {
           initial="hidden"
           animate="visible"
           variants={fadeInUp}
-          className="flex flex-wrap items-center gap-2 mb-6"
+          className="flex flex-wrap items-center gap-2 mb-8"
         >
           {project.status && (
             <TagChip
@@ -60,16 +60,19 @@ const ProjectDetail = ({ project }) => {
           initial="hidden"
           animate="visible"
           variants={fadeInUp}
-          className="flex flex-wrap gap-3 mb-10"
+          className="flex flex-wrap gap-3 mb-12"
         >
           {project.liveUrl && (
             <a
               href={project.liveUrl}
               target="_blank"
               rel="noreferrer"
-              className="link inline-flex items-center gap-2 font-mono text-sm font-bold px-5 py-2.5 rounded-md bg-purple text-white hover:shadow-[0_0_1rem_rgba(139,49,255,0.4)] transition-all duration-300"
+              className="link group inline-flex items-center gap-2 font-mono text-sm font-bold px-6 py-3 rounded-xl bg-gradient-to-r from-indigo-light to-indigo-dark text-white hover:shadow-[0_0_30px_rgba(139,49,255,0.3)] hover:scale-[1.02] transition-all duration-300"
             >
-              Live Demo ↗
+              Live Demo
+              <svg className="w-4 h-4 transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
             </a>
           )}
           {project.githubUrl && (
@@ -77,9 +80,12 @@ const ProjectDetail = ({ project }) => {
               href={project.githubUrl}
               target="_blank"
               rel="noreferrer"
-              className="link inline-flex items-center gap-2 font-mono text-sm font-bold px-5 py-2.5 rounded-md outline outline-2 outline-white/30 text-white hover:bg-white hover:text-black transition-all duration-300"
+              className="link group inline-flex items-center gap-2 font-mono text-sm font-bold px-6 py-3 rounded-xl border border-white/[0.12] text-white hover:bg-white/[0.05] hover:border-white/20 transition-all duration-300"
             >
-              GitHub ↗
+              GitHub
+              <svg className="w-4 h-4 transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
             </a>
           )}
         </motion.div>
@@ -89,8 +95,8 @@ const ProjectDetail = ({ project }) => {
           <motion.div
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6 }}
-            className="relative w-full h-[20rem] md:h-[28rem] rounded-2xl overflow-hidden mb-16"
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            className="relative w-full h-[20rem] md:h-[30rem] rounded-2xl overflow-hidden mb-20 border border-white/[0.06]"
             style={{
               background: `linear-gradient(135deg, ${project.gradient[0]} 0%, ${project.gradient[1]} 100%)`,
             }}
@@ -99,7 +105,7 @@ const ProjectDetail = ({ project }) => {
               src={project.image}
               alt={project.name}
               fill
-              className="object-contain p-8 md:p-12"
+              className="object-contain p-8 md:p-16"
               priority
             />
           </motion.div>
@@ -110,15 +116,16 @@ const ProjectDetail = ({ project }) => {
           initial="hidden"
           animate="visible"
           variants={staggerContainer}
-          className="max-w-3xl space-y-16 pb-10"
+          className="max-w-3xl space-y-20 pb-10"
         >
           {/* Overview */}
           {project.overview && (
             <motion.section variants={fadeInUp}>
-              <h2 className="text-2xl font-semibold text-white mb-4">
+              <h2 className="text-xs font-mono uppercase tracking-widest text-gray-light-4 mb-5 flex items-center gap-2">
+                <span className="w-4 h-px bg-gray-light-4" />
                 Overview
               </h2>
-              <p className="text-gray-light-2 leading-relaxed text-lg">
+              <p className="text-gray-light-2 leading-[1.85] text-[1.05rem]">
                 {project.overview}
               </p>
             </motion.section>
@@ -127,16 +134,19 @@ const ProjectDetail = ({ project }) => {
           {/* Achievements */}
           {project.achievements && project.achievements.length > 0 && (
             <motion.section variants={fadeInUp}>
-              <h2 className="text-2xl font-semibold text-white mb-4">
+              <h2 className="text-xs font-mono uppercase tracking-widest text-gray-light-4 mb-5 flex items-center gap-2">
+                <span className="w-4 h-px bg-gray-light-4" />
                 Key Achievements
               </h2>
-              <ul className="space-y-3">
+              <ul className="space-y-4">
                 {project.achievements.map((item, i) => (
                   <li
                     key={i}
-                    className="flex items-start gap-3 text-gray-light-2 leading-relaxed"
+                    className="flex items-start gap-4 text-gray-light-2 leading-relaxed"
                   >
-                    <span className="text-indigo-light mt-1.5 text-xs">▶</span>
+                    <span className="mt-1 w-6 h-6 rounded-lg bg-white/[0.04] border border-white/[0.06] flex items-center justify-center text-indigo-light text-[0.65rem] font-mono font-bold flex-shrink-0">
+                      {i + 1}
+                    </span>
                     <span>{item}</span>
                   </li>
                 ))}
@@ -147,10 +157,11 @@ const ProjectDetail = ({ project }) => {
           {/* Timeline */}
           {project.timeline && project.timeline.length > 0 && (
             <motion.section variants={fadeInUp}>
-              <h2 className="text-2xl font-semibold text-white mb-6">
+              <h2 className="text-xs font-mono uppercase tracking-widest text-gray-light-4 mb-8 flex items-center gap-2">
+                <span className="w-4 h-px bg-gray-light-4" />
                 Timeline
               </h2>
-              <div className="relative border-l-2 border-gray-dark-1 pl-8 space-y-8">
+              <div className="relative border-l border-white/[0.06] pl-8 space-y-10">
                 {project.timeline.map((item, i) => (
                   <motion.div
                     key={i}
@@ -161,14 +172,14 @@ const ProjectDetail = ({ project }) => {
                     className="relative"
                   >
                     {/* Dot */}
-                    <div className="absolute -left-[2.55rem] top-1.5 w-3 h-3 rounded-full bg-purple border-2 border-gray-dark-5" />
-                    <span className="text-xs font-mono text-indigo-light">
+                    <div className="absolute -left-[2.15rem] top-1 w-2.5 h-2.5 rounded-full bg-indigo-light/80 ring-[3px] ring-gray-dark-5" />
+                    <span className="text-[0.7rem] font-mono text-indigo-light uppercase tracking-wider">
                       {item.date}
                     </span>
-                    <h3 className="text-lg font-semibold text-white mt-1">
+                    <h3 className="text-lg font-bold text-white mt-1.5 tracking-tight">
                       {item.label}
                     </h3>
-                    <p className="text-gray-light-3 text-sm mt-1">
+                    <p className="text-gray-light-3 text-sm mt-1.5 leading-relaxed">
                       {item.description}
                     </p>
                   </motion.div>
@@ -180,7 +191,8 @@ const ProjectDetail = ({ project }) => {
           {/* Tech Stack */}
           {project.techStack && project.techStack.length > 0 && (
             <motion.section variants={fadeInUp}>
-              <h2 className="text-2xl font-semibold text-white mb-4">
+              <h2 className="text-xs font-mono uppercase tracking-widest text-gray-light-4 mb-5 flex items-center gap-2">
+                <span className="w-4 h-px bg-gray-light-4" />
                 Tech Stack
               </h2>
               <div className="flex flex-wrap gap-2">
@@ -190,42 +202,18 @@ const ProjectDetail = ({ project }) => {
               </div>
             </motion.section>
           )}
-
-          {/* Links */}
-          <motion.section variants={fadeInUp}>
-            <h2 className="text-2xl font-semibold text-white mb-4">Links</h2>
-            <div className="flex flex-wrap gap-4">
-              {project.liveUrl && (
-                <a
-                  href={project.liveUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="link text-indigo-light font-mono text-sm hover:text-purple transition-colors"
-                >
-                  Live Demo ↗
-                </a>
-              )}
-              {project.githubUrl && (
-                <a
-                  href={project.githubUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="link text-indigo-light font-mono text-sm hover:text-purple transition-colors"
-                >
-                  GitHub ↗
-                </a>
-              )}
-            </div>
-          </motion.section>
         </motion.div>
 
         {/* Back link */}
-        <div className="pb-10">
+        <div className="pb-10 mt-10">
           <Link
             href="/work"
-            className="link inline-flex items-center gap-2 text-gray-light-3 font-mono text-sm hover:text-indigo-light hover:gap-3 transition-all duration-200"
+            className="link inline-flex items-center gap-2 text-gray-light-3 font-mono text-sm hover:text-indigo-light transition-all duration-200 group"
           >
-            <span>←</span> All projects
+            <svg className="w-4 h-4 transform group-hover:-translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16l-4-4m0 0l4-4m-4 4h18" />
+            </svg>
+            All projects
           </Link>
         </div>
       </div>
@@ -249,7 +237,6 @@ export async function getStaticProps({ params }) {
     return { notFound: true };
   }
 
-  // Serialize the project (strip JSX/functions that can't be serialized)
   const serialized = {
     name: project.name,
     slug: project.slug,

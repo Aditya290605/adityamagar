@@ -9,16 +9,22 @@ const Projects = ({ isDesktop, clientHeight }) => {
   const sectionTitleRef = useRef(null);
 
   useEffect(() => {
+    if (!sectionRef.current) return;
+
     let projectsScrollTrigger;
     let projectsTimeline;
 
     if (isDesktop) {
-      [projectsTimeline, projectsScrollTrigger] = getProjectsSt();
+      const [timeline, trigger] = getProjectsSt();
+      projectsTimeline = timeline;
+      projectsScrollTrigger = trigger;
     } else {
       const projectWrapper =
         sectionRef.current.querySelector(".project-wrapper");
-      projectWrapper.style.width = "calc(100vw - 1rem)";
-      projectWrapper.style.overflowX = "scroll";
+      if (projectWrapper) {
+        projectWrapper.style.width = "calc(100vw - 1rem)";
+        projectWrapper.style.overflowX = "scroll";
+      }
     }
 
     const [revealTimeline, revealScrollTrigger] = getRevealSt();
@@ -32,10 +38,12 @@ const Projects = ({ isDesktop, clientHeight }) => {
   }, [sectionRef, sectionTitleRef, isDesktop]);
 
   const getRevealSt = () => {
+    if (!sectionRef.current) return [null, null];
     const revealTl = gsap.timeline({ defaults: { ease: "none" } });
 
+    const targets = sectionRef.current.querySelectorAll(".staggered-reveal");
     revealTl.from(
-      sectionRef.current.querySelectorAll(".staggered-reveal"),
+      targets,
       { opacity: 0, duration: 0.5, stagger: 0.5 },
       "<"
     );
@@ -52,13 +60,18 @@ const Projects = ({ isDesktop, clientHeight }) => {
   };
 
   const getProjectsSt = () => {
+    if (!sectionRef.current) return [null, null];
+    const innerContainer = sectionRef.current.querySelector(".inner-container");
+    const projectWrapper = sectionRef.current.querySelector(".project-wrapper");
+    if (!innerContainer || !projectWrapper) return [null, null];
+
     const timeline = gsap.timeline({ defaults: { ease: "none" } });
     const sidePadding =
       document.body.clientWidth -
-      sectionRef.current.querySelector(".inner-container").clientWidth;
+      innerContainer.clientWidth;
     const elementWidth =
       sidePadding +
-      sectionRef.current.querySelector(".project-wrapper").clientWidth;
+      projectWrapper.clientWidth;
     sectionRef.current.style.width = `${elementWidth}px`;
     const width = window.innerWidth - elementWidth;
     const duration = `${(elementWidth / window.innerHeight) * 100}%`;
@@ -78,6 +91,7 @@ const Projects = ({ isDesktop, clientHeight }) => {
 
     return [timeline, scrollTrigger];
   };
+
 
   return (
     <section
