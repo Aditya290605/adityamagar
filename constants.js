@@ -49,6 +49,7 @@ export const MENULINKS = [
 ];
 
 export const NAV_LINKS = [
+  { name: "Home", href: "/" },
   { name: "Work", href: "/work" },
   { name: "Experience", href: "/experience" },
   { name: "Blog", href: "/blog" },

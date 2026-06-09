@@ -55,10 +55,10 @@ const Navbar = () => {
                 <Link
                   key={link.name}
                   href={link.href}
-                  className={`link font-mono text-[0.8rem] px-4 py-1.5 rounded-full transition-all duration-300 ${
+                  className={`link font-mono text-[0.8rem] px-4 py-1.5 rounded-full transition-all duration-300 border ${
                     isActive(link.href)
-                      ? "bg-white/[0.1] text-white shadow-[0_0_12px_rgba(139,49,255,0.15)]"
-                      : "text-gray-light-3 hover:text-white hover:bg-white/[0.05]"
+                      ? "bg-white/[0.1] text-white border-white/[0.05] shadow-[0_0_15px_rgba(139,49,255,0.25)]"
+                      : "border-transparent text-gray-light-3 hover:text-white hover:bg-white/[0.05]"
                   }`}
                 >
                   {link.name}
@@ -143,10 +143,10 @@ const Navbar = () => {
             >
               <Link
                 href={link.href}
-                className={`link block font-mono text-lg font-medium px-4 py-3 rounded-xl transition-all duration-200 ${
+                className={`link block font-mono text-lg font-medium px-4 py-3 rounded-xl transition-all duration-200 border ${
                   isActive(link.href)
-                    ? "text-white bg-white/[0.08]"
-                    : "text-gray-light-3 hover:text-white hover:bg-white/[0.04]"
+                    ? "text-white bg-indigo-light/10 border-indigo-light/20 shadow-[0_0_12px_rgba(139,49,255,0.15)]"
+                    : "border-transparent text-gray-light-3 hover:text-white hover:bg-white/[0.04]"
                 }`}
               >
                 {link.name}
