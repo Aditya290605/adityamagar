@@ -6,10 +6,9 @@ import pneumoniaPrediction from "../../public/projects/pneumonia-prediction.png"
 import aiVoiceAssistant from "../../public/projects/ai-voice-assistant.png";
 import expenseTracker from "../../public/projects/expense-tracker.png";
 import dailyflow from "../../public/projects/dailyflow.png";
-import perplexityClone from "../../public/projects/perplexity-clone.webp";
+import collabboard from "../../public/projects/collabboard.svg";
 import neoRoute from "../../public/projects/neo-route.png";
 import signbridge from "../../public/projects/signbridge.png";
-import clipforge from "../../public/projects/clipforge.webp";
 
 export const PROJECT_IMAGES = {
   gradevise,
@@ -20,8 +19,7 @@ export const PROJECT_IMAGES = {
   "ai-voice-assistant": aiVoiceAssistant,
   "expense-tracker": expenseTracker,
   dailyflow,
-  "perplexity-clone": perplexityClone,
+  collabboard,
   "neo-route": neoRoute,
   signbridge,
-  clipforge,
 };

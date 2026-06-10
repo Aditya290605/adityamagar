@@ -17,8 +17,47 @@ const staggerContainer = {
   visible: { transition: { staggerChildren: 0.12 } },
 };
 
+const getStatusLabel = (status) =>
+  status === "live" ? "Live" : status === "wip" ? "WIP" : "Completed";
+
+const getStatusVariant = (status) =>
+  status === "live" ? "live" : status === "wip" ? "wip" : "default";
+
+const SectionHeading = ({ eyebrow, title }) => (
+  <div className="mb-7">
+    <p className="mb-2 flex items-center gap-3 text-[0.72rem] font-mono uppercase tracking-[0.18em] text-indigo-light">
+      <span className="h-px w-7 bg-indigo-light/70" />
+      {eyebrow}
+    </p>
+    <h2 className="text-3xl font-semibold leading-tight text-white md:text-4xl">
+      {title}
+    </h2>
+  </div>
+);
+
+const ExternalIcon = () => (
+  <svg
+    className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    aria-hidden="true"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M7 17L17 7M17 7H9M17 7v8"
+    />
+  </svg>
+);
+
 const ProjectDetail = ({ project }) => {
   if (!project) return null;
+
+  const statusLabel = getStatusLabel(project.status);
+  const statusVariant = getStatusVariant(project.status);
+  const featuredAchievements = project.achievements?.slice(0, 3) || [];
 
   return (
     <>
@@ -36,150 +75,155 @@ const ProjectDetail = ({ project }) => {
           ]}
         />
 
-        {/* Tags & Status */}
-        <motion.div
-          initial="hidden"
-          animate="visible"
-          variants={fadeInUp}
-          className="flex flex-wrap items-center gap-2 mb-8"
-        >
-          {project.status && (
-            <TagChip
-              label={project.status === "live" ? "Live" : project.status === "wip" ? "WIP" : "Completed"}
-              variant={project.status === "live" ? "live" : project.status === "wip" ? "wip" : "default"}
-            />
-          )}
-          {project.techStack &&
-            project.techStack.map((tech) => (
-              <TagChip key={tech} label={tech} />
-            ))}
-        </motion.div>
-
-        {/* Action buttons */}
-        <motion.div
-          initial="hidden"
-          animate="visible"
-          variants={fadeInUp}
-          className="flex flex-wrap gap-3 mb-12"
-        >
-          {project.liveUrl && (
-            <a
-              href={project.liveUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="link group inline-flex items-center gap-2 font-mono text-sm font-bold px-6 py-3 rounded-xl bg-gradient-to-r from-indigo-light to-indigo-dark text-white hover:shadow-[0_0_30px_rgba(139,49,255,0.3)] hover:scale-[1.02] transition-all duration-300"
-            >
-              Live Demo
-              <svg className="w-4 h-4 transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-              </svg>
-            </a>
-          )}
-          {project.githubUrl && (
-            <a
-              href={project.githubUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="link group inline-flex items-center gap-2 font-mono text-sm font-bold px-6 py-3 rounded-xl border border-white/[0.12] text-white hover:bg-white/[0.05] hover:border-white/20 transition-all duration-300"
-            >
-              GitHub
-              <svg className="w-4 h-4 transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-              </svg>
-            </a>
-          )}
-        </motion.div>
-
-        {/* Hero image */}
-        {project.image && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.98 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="relative w-full h-[20rem] md:h-[30rem] rounded-2xl overflow-hidden mb-20 border border-white/[0.06]"
-            style={{
-              background: `linear-gradient(135deg, ${project.gradient[0]} 0%, ${project.gradient[1]} 100%)`,
-            }}
-          >
-            <Image
-              src={project.image}
-              alt={project.name}
-              fill
-              className="object-contain p-8 md:p-16"
-              priority
-            />
-          </motion.div>
-        )}
-
-        {/* Content sections */}
         <motion.div
           initial="hidden"
           animate="visible"
           variants={staggerContainer}
-          className="max-w-3xl space-y-20 pb-10"
+          className="space-y-20 pb-16"
         >
-          {/* Overview */}
-          {project.overview && (
-            <motion.section variants={fadeInUp}>
-              <h2 className="text-xs font-mono uppercase tracking-widest text-gray-light-4 mb-5 flex items-center gap-2">
-                <span className="w-4 h-px bg-gray-light-4" />
-                Overview
-              </h2>
-              <p className="text-gray-light-2 leading-[1.85] text-[1.05rem]">
-                {project.overview}
-              </p>
-            </motion.section>
-          )}
+          <motion.section
+            variants={fadeInUp}
+            className="grid gap-8 lg:grid-cols-[minmax(0,1.35fr)_minmax(20rem,0.65fr)]"
+          >
+            <div
+              className="relative min-h-[24rem] overflow-hidden rounded-2xl border border-white/[0.08] bg-gray-dark-5 md:min-h-[34rem]"
+              style={{
+                background: `linear-gradient(145deg, rgba(18,14,22,0.96) 0%, ${project.gradient[0]}22 45%, ${project.gradient[1]}44 100%)`,
+              }}
+            >
+              <Image
+                src="/project-bg.svg"
+                alt=""
+                fill
+                className="opacity-10 mix-blend-screen"
+              />
+              <div
+                className="absolute -right-24 -top-24 h-72 w-72 rounded-full blur-3xl opacity-40"
+                style={{ background: project.gradient[0] }}
+              />
+              <div
+                className="absolute -bottom-28 left-1/4 h-80 w-80 rounded-full blur-3xl opacity-30"
+                style={{ background: project.gradient[1] }}
+              />
+              {project.image && (
+                <Image
+                  src={project.image}
+                  alt={project.name}
+                  fill
+                  priority
+                  sizes="(min-width: 1024px) 60vw, 100vw"
+                  className="relative object-contain p-7 md:p-14"
+                />
+              )}
+            </div>
 
-          {/* Achievements */}
-          {project.achievements && project.achievements.length > 0 && (
-            <motion.section variants={fadeInUp}>
-              <h2 className="text-xs font-mono uppercase tracking-widest text-gray-light-4 mb-5 flex items-center gap-2">
-                <span className="w-4 h-px bg-gray-light-4" />
-                Key Achievements
-              </h2>
-              <ul className="space-y-4">
-                {project.achievements.map((item, i) => (
-                  <li
-                    key={i}
-                    className="flex items-start gap-4 text-gray-light-2 leading-relaxed"
+            <div className="flex flex-col justify-between rounded-2xl border border-white/[0.08] bg-white/[0.035] p-6 md:p-7">
+              <div>
+                <div className="mb-5 flex flex-wrap gap-2">
+                  {project.status && (
+                    <TagChip label={statusLabel} variant={statusVariant} />
+                  )}
+                  {project.techStack?.slice(0, 3).map((tech) => (
+                    <TagChip key={tech} label={tech} />
+                  ))}
+                </div>
+                <p className="text-[1.08rem] leading-[1.8] text-gray-light-2">
+                  {project.overview || project.description}
+                </p>
+              </div>
+
+              <div className="mt-8 space-y-3">
+                {project.liveUrl && (
+                  <a
+                    href={project.liveUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="link group flex items-center justify-between rounded-xl bg-gradient-to-r from-indigo-light to-indigo-dark px-5 py-3 font-mono text-sm font-bold text-white transition-all duration-300 hover:shadow-[0_0_30px_rgba(139,49,255,0.3)]"
                   >
-                    <span className="mt-1 w-6 h-6 rounded-lg bg-white/[0.04] border border-white/[0.06] flex items-center justify-center text-indigo-light text-[0.65rem] font-mono font-bold flex-shrink-0">
-                      {i + 1}
+                    Live Demo
+                    <ExternalIcon />
+                  </a>
+                )}
+                {project.githubUrl && (
+                  <a
+                    href={project.githubUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="link group flex items-center justify-between rounded-xl border border-white/[0.1] bg-white/[0.04] px-5 py-3 font-mono text-sm font-bold text-white transition-all duration-300 hover:border-white/20 hover:bg-white/[0.07]"
+                  >
+                    GitHub Repo
+                    <ExternalIcon />
+                  </a>
+                )}
+              </div>
+            </div>
+          </motion.section>
+
+          {featuredAchievements.length > 0 && (
+            <motion.section variants={fadeInUp}>
+              <div className="grid gap-4 md:grid-cols-3">
+                {featuredAchievements.map((item, i) => (
+                  <div
+                    key={item}
+                    className="rounded-2xl border border-white/[0.08] bg-white/[0.035] p-5"
+                  >
+                    <span className="mb-4 flex h-9 w-9 items-center justify-center rounded-xl border border-indigo-light/20 bg-indigo-light/10 font-mono text-sm font-bold text-indigo-light">
+                      0{i + 1}
                     </span>
-                    <span>{item}</span>
-                  </li>
+                    <p className="leading-relaxed text-gray-light-2">{item}</p>
+                  </div>
                 ))}
-              </ul>
+              </div>
             </motion.section>
           )}
 
-          {/* Timeline */}
+          <motion.section
+            variants={fadeInUp}
+            className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr]"
+          >
+            <div>
+              <SectionHeading eyebrow="Stack" title="Built With" />
+              <p className="max-w-md text-[1.02rem] leading-[1.8] text-gray-light-3">
+                The stack combines the core frameworks, services, and UI tools
+                used to ship the project.
+              </p>
+            </div>
+            <div className="flex flex-wrap content-start gap-3">
+              {project.techStack?.map((tech) => (
+                <span
+                  key={tech}
+                  className="rounded-full border border-white/[0.08] bg-white/[0.04] px-4 py-2 font-mono text-sm text-gray-light-2"
+                >
+                  {tech}
+                </span>
+              ))}
+            </div>
+          </motion.section>
+
           {project.timeline && project.timeline.length > 0 && (
             <motion.section variants={fadeInUp}>
-              <h2 className="text-xs font-mono uppercase tracking-widest text-gray-light-4 mb-8 flex items-center gap-2">
-                <span className="w-4 h-px bg-gray-light-4" />
-                Timeline
-              </h2>
-              <div className="relative border-l border-white/[0.06] pl-8 space-y-10">
+              <SectionHeading eyebrow="Process" title="Project Timeline" />
+              <div className="relative grid gap-4 md:grid-cols-2">
                 {project.timeline.map((item, i) => (
                   <motion.div
                     key={i}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: i * 0.1, duration: 0.4 }}
-                    className="relative"
+                    className="relative overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.035] p-5"
                   >
-                    {/* Dot */}
-                    <div className="absolute -left-[2.15rem] top-1 w-2.5 h-2.5 rounded-full bg-indigo-light/80 ring-[3px] ring-gray-dark-5" />
-                    <span className="text-[0.7rem] font-mono text-indigo-light uppercase tracking-wider">
+                    <div
+                      className="absolute -right-10 -top-10 h-24 w-24 rounded-full blur-2xl opacity-25"
+                      style={{ background: project.gradient[i % 2] }}
+                    />
+                    <span className="text-[0.72rem] font-mono uppercase tracking-[0.18em] text-indigo-light">
                       {item.date}
                     </span>
-                    <h3 className="text-lg font-bold text-white mt-1.5 tracking-tight">
+                    <h3 className="mt-3 text-xl font-semibold leading-tight text-white">
                       {item.label}
                     </h3>
-                    <p className="text-gray-light-3 text-sm mt-1.5 leading-relaxed">
+                    <p className="mt-3 text-[0.98rem] leading-relaxed text-gray-light-3">
                       {item.description}
                     </p>
                   </motion.div>
@@ -188,24 +232,27 @@ const ProjectDetail = ({ project }) => {
             </motion.section>
           )}
 
-          {/* Tech Stack */}
-          {project.techStack && project.techStack.length > 0 && (
+          {project.achievements && project.achievements.length > 0 && (
             <motion.section variants={fadeInUp}>
-              <h2 className="text-xs font-mono uppercase tracking-widest text-gray-light-4 mb-5 flex items-center gap-2">
-                <span className="w-4 h-px bg-gray-light-4" />
-                Tech Stack
-              </h2>
-              <div className="flex flex-wrap gap-2">
-                {project.techStack.map((tech) => (
-                  <TagChip key={tech} label={tech} />
+              <SectionHeading eyebrow="Highlights" title="What It Delivers" />
+              <ul className="grid gap-4 md:grid-cols-2">
+                {project.achievements.map((item, i) => (
+                  <li
+                    key={item}
+                    className="flex gap-4 rounded-2xl border border-white/[0.08] bg-white/[0.035] p-5 text-gray-light-2"
+                  >
+                    <span className="mt-0.5 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg bg-white/[0.05] font-mono text-[0.72rem] font-bold text-indigo-light">
+                      {i + 1}
+                    </span>
+                    <span className="leading-relaxed">{item}</span>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </motion.section>
           )}
         </motion.div>
 
-        {/* Back link */}
-        <div className="pb-10 mt-10">
+        <div className="pb-10">
           <Link
             href="/work"
             className="link inline-flex items-center gap-2 text-gray-light-3 font-mono text-sm hover:text-indigo-light transition-all duration-200 group"

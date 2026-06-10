@@ -32,16 +32,31 @@ const BlogPage = () => {
           ]}
         />
 
-        {/* Post count */}
-        <p className="text-sm font-mono text-gray-light-4 mb-8">
-          {BLOG_POSTS.length} article{BLOG_POSTS.length !== 1 ? "s" : ""}
-        </p>
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.15 }}
+          className="mb-10 flex flex-col gap-4 rounded-2xl border border-white/[0.08] bg-white/[0.03] p-5 sm:flex-row sm:items-center sm:justify-between"
+        >
+          <div>
+            <p className="font-mono text-[0.78rem] uppercase tracking-[0.16em] text-indigo-light">
+              Writing Desk
+            </p>
+            <p className="mt-2 max-w-2xl text-[1.08rem] leading-relaxed text-gray-light-2">
+              Notes from building Flutter apps, shaping architecture, and
+              learning through real projects.
+            </p>
+          </div>
+          <div className="w-fit rounded-full border border-white/[0.08] bg-black/20 px-4 py-2 font-mono text-sm text-gray-light-3">
+            {BLOG_POSTS.length} article{BLOG_POSTS.length !== 1 ? "s" : ""}
+          </div>
+        </motion.div>
 
         <motion.div
           initial="hidden"
           animate="visible"
           variants={staggerContainer}
-          className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 pb-10"
+          className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 pb-14"
         >
           {BLOG_POSTS.map((post) => (
             <motion.div key={post.slug} variants={fadeInUp}>

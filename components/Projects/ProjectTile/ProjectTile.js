@@ -18,6 +18,7 @@ const ProjectTile = ({ project, classes, isDesktop }) => {
   const { name, imageKey, description, gradient, url, tech } = project;
 
   const image = PROJECT_IMAGES[imageKey];
+  const imagePlaceholderProps = image?.blurDataURL ? { placeholder: "blur" } : {};
 
   let additionalClasses = "";
   if (classes) {
@@ -56,7 +57,7 @@ const ProjectTile = ({ project, classes, isDesktop }) => {
         <Image
           src={image}
           alt={name}
-          placeholder="blur"
+          {...imagePlaceholderProps}
           fill
           className={styles.projectImage}
         />
