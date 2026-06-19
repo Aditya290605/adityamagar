@@ -72,7 +72,7 @@ const ProjectCard = ({ project }) => {
                 alt={name}
                 fill
                 sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                className="object-contain p-5 transition-transform duration-500 group-hover:scale-[1.04]"
+                className="object-contain transition-transform duration-500 group-hover:scale-[1.04]"
               />
             )}
             <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/45 to-transparent" />

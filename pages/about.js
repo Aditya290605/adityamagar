@@ -15,14 +15,17 @@ const AnimatedCounter = ({ value, label, suffix = "+" }) => {
     let start = 0;
     const end = value;
     const duration = 1500;
-    const stepTime = Math.max(Math.floor(duration / end), 30);
+    const steps = 50;
+    const stepTime = duration / steps;
+    const increment = Math.max(Math.ceil(end / steps), 1);
 
     const timer = setInterval(() => {
-      start += 1;
-      setCount(start);
+      start += increment;
       if (start >= end) {
         clearInterval(timer);
         setCount(end);
+      } else {
+        setCount(start);
       }
     }, stepTime);
 
@@ -30,12 +33,12 @@ const AnimatedCounter = ({ value, label, suffix = "+" }) => {
   }, [isInView, value]);
 
   return (
-    <div ref={ref} className="rounded-2xl border border-white/[0.06] bg-white/[0.025] px-4 py-6 text-center group">
-      <div className="text-4xl md:text-6xl font-bold text-white tracking-tight">
+    <div ref={ref} className="flex flex-1 flex-col items-center text-center py-4 sm:py-2">
+      <div className="text-3xl md:text-5xl font-bold text-white tracking-tight flex items-baseline">
         {count}
-        {suffix && <span className="text-indigo-light">{suffix}</span>}
+        {suffix && <span className="text-indigo-light text-xl md:text-2xl font-semibold ml-0.5">{suffix}</span>}
       </div>
-      <p className="text-gray-light-3 text-[0.78rem] font-mono mt-3 uppercase tracking-[0.14em]">{label}</p>
+      <p className="text-gray-light-4 text-[0.72rem] font-mono mt-2 uppercase tracking-[0.14em]">{label}</p>
     </div>
   );
 };
@@ -72,12 +75,12 @@ const AboutPage = () => {
           ]}
         />
 
-        {/* Stats row */}
+        {/* Stats row styled like Google Play Store Info Bar */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5 mb-24"
+          className="flex flex-col sm:flex-row justify-between items-stretch rounded-2xl border border-white/[0.06] bg-white/[0.015] backdrop-blur-md px-6 py-4 mb-24 divide-y sm:divide-y-0 sm:divide-x divide-white/[0.08]"
         >
           {ABOUT.stats.map((stat) => (
             <AnimatedCounter
