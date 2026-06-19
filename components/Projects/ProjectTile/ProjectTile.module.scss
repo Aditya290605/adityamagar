@@ -14,24 +14,30 @@
 }
 
 .projectImage {
-  @apply absolute top-0 rounded-xl shadow-xl;
+  @apply absolute;
 
-  width: 17rem !important;
-  max-width: 17rem !important;
-  transform: rotate(-22.5deg);
-  height: unset !important;
-  min-width: unset !important;
-  max-height: unset !important;
-  object-fit: contain !important;
-  left: unset !important;
+  width: 20rem !important;
+  max-width: 20rem !important;
+  height: 90% !important;
+  top: 5% !important;
   right: 2rem !important;
-  bottom: unset !important;
-  clip-path: inset(0);
+  object-fit: contain !important;
   z-index: 0;
+  transform: none !important;
+  transition: transform 0.5s ease;
+
+  @media (max-width: 768px) {
+    width: 16rem !important;
+    right: 1rem !important;
+    height: 80% !important;
+    top: 10% !important;
+  }
 
   @media (max-width: 480px) {
-    width: clamp(12rem, 40vw, 16rem) !important;
-    right: clamp(-2rem, 2vw, 1.5rem) !important;
+    width: 12rem !important;
+    right: 0.5rem !important;
+    height: 70% !important;
+    top: 15% !important;
   }
 }
 
