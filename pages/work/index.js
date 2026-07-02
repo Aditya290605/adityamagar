@@ -84,6 +84,33 @@ const WorkPage = () => {
           ))}
         </div>
 
+        {/* View More on GitHub Button */}
+        {filtered.length > 0 && (
+          <div className="mt-12 mb-16 flex justify-center">
+            <a
+              href="https://github.com/Aditya290605?tab=repositories"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link group inline-flex items-center gap-2 font-mono text-sm font-bold px-8 py-3.5 rounded-xl bg-gradient-to-r from-indigo-light to-indigo-dark text-white hover:shadow-[0_0_30px_rgba(139,49,255,0.3)] hover:scale-[1.02] transition-all duration-300"
+            >
+              View More on GitHub
+              <svg
+                className="w-4 h-4 transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                />
+              </svg>
+            </a>
+          </div>
+        )}
+
         {filtered.length === 0 && (
           <div className="text-center py-24">
             <p className="text-gray-light-3 font-mono text-lg mb-2">

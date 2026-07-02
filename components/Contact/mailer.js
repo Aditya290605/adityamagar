@@ -1,16 +1,24 @@
-import emailjs from "@emailjs/browser";
+const mail = async ({ name, email, message }) => {
+  const response = await fetch("https://formsubmit.co/ajax/magaraditya2911@gmail.com", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({
+      name,
+      email,
+      message,
+      _subject: `New Portfolio Message from ${name}`,
+      _captcha: "false",
+    }),
+  });
 
-const mail = ({ name, email, message }) =>
-  emailjs.send(
-    process.env.NEXT_PUBLIC_SERVICE_ID,
-    process.env.NEXT_PUBLIC_TEMPLATE_ID,
-    { name, email, message },
-    {
-      publicKey: process.env.NEXT_PUBLIC_USER_ID,
-      limitRate: {
-        throttle: 10000, // 10s
-      },
-    }
-  );
+  if (response.ok) {
+    return { status: 200 };
+  } else {
+    throw new Error("Failed to send message");
+  }
+};
 
 export default mail;
