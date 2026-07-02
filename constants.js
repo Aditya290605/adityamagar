@@ -23,7 +23,8 @@ export const METADATA = {
 };
 
 export const RESUME_URL =
-  "https://drive.google.com/file/d/1L4OQ1YsnwN4hNv8b_5_vqhSYkhqnqG92/view?usp=sharing";
+  "https://drive.google.com/file/d/1hulHLD3ePtAu7NTXpItH7-yHQ6NhMK9g/view?usp=sharing";
+
 
 export const MENULINKS = [
   {

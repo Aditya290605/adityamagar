@@ -44,7 +44,7 @@ const Tab = ({ index, tab, activeTab, handleOnClick, setIsHovering }) => {
 
 const TabsContent = ({ tabs, isHovering }) => {
   return (
-    <div className="relative w-full h-full">
+    <div className="relative w-full h-[34rem] md:h-[33rem]">
       {tabs.map((tab, index) => {
         return (
           <motion.div
@@ -59,7 +59,7 @@ const TabsContent = ({ tabs, isHovering }) => {
             animate={{
               y: tab.value === tabs[0].value ? [0, 40, 0] : 0,
             }}
-            className="w-full h-full absolute top-0 left-0 mt-24 md:mt-20"
+            className="w-full absolute top-24 md:top-20 bottom-0 left-0"
           >
             {tab.content}
           </motion.div>
